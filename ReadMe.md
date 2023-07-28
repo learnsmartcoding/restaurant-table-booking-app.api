@@ -61,27 +61,3 @@ Next, we install essential Entity Framework packages and configure the connectio
 
 Join us as we lay the foundation for seamless data management and backend functionality for our restaurant app!
 
-
-### To initiate code check in to repo
-To add your code from your local repository to the remote repository on Azure DevOps, you can follow these steps:
-
-Initialize Git Repository: If you haven't already done so, initialize a Git repository in your local project directory by running the following command in the root of your project:
-
-git init
-
-Add and Commit Changes: Add all your project files to the Git repository and make an initial commit:
-
-git add .
-git commit -m "Initial commit"
-
-Add Remote Repository: Add the Azure DevOps remote repository as a remote named "origin":
-
-
-git remote add origin https://learnsmartcoding@dev.azure.com/learnsmartcoding/tutorials/_git/RestaurantTableBookingApp.API
-
-Push Code to Remote Repository: Push your code to the Azure DevOps remote repository on the "main" branch (or any other branch you prefer):
-
-
-git push -u origin main
-
-If it's the first time pushing to this repository, you may be prompted to enter your Azure DevOps credentials.
