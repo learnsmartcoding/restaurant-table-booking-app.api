@@ -257,7 +257,7 @@ VALUES
 
 
 	---------------------------------------
-
+GO
 	-- Insert data into Reservations table and update TimeSlots TableStatus
 BEGIN TRANSACTION;
 
@@ -315,55 +315,7 @@ WHERE Id = 3;
 COMMIT TRANSACTION;
 
 
-DECLARE @StartDate DATE = GETDATE(); -- Current date
-DECLARE @EndDate DATE = DATEADD(DAY, 2, @StartDate); -- Next 3 days
-
--- Recursive CTE to generate dates for the next 3 days
-;WITH DateCTE AS
-(
-    SELECT @StartDate AS DateValue
-    UNION ALL
-    SELECT DATEADD(DAY, 1, DateValue)
-    FROM DateCTE
-    WHERE DateValue < @EndDate
-)
-INSERT INTO TimeSlots (BranchId, ReservationDay, MealType, TableStatus)
-SELECT
-    RB.Id AS BranchId,
-    DC.DateValue AS ReservationDay,
-    'Breakfast' AS MealType,
-    'Available' AS TableStatus
-FROM
-    RestaurantBranches RB
-CROSS JOIN
-    DateCTE DC
-WHERE
-    DATEPART(HOUR, CONVERT(DATETIME, DC.DateValue)) >= 7 AND DATEPART(HOUR, CONVERT(DATETIME, DC.DateValue)) < 11
-UNION ALL
-SELECT
-    RB.Id AS BranchId,
-    DC.DateValue AS ReservationDay,
-    'Lunch' AS MealType,
-    'Available' AS TableStatus
-FROM
-    RestaurantBranches RB
-CROSS JOIN
-    DateCTE DC
-WHERE
-    DATEPART(HOUR, CONVERT(DATETIME, DC.DateValue)) >= 12 AND DATEPART(HOUR, CONVERT(DATETIME, DC.DateValue)) < 16
-UNION ALL
-SELECT
-    RB.Id AS BranchId,
-    DC.DateValue AS ReservationDay,
-    'Dinner' AS MealType,
-    'Available' AS TableStatus
-FROM
-    RestaurantBranches RB
-CROSS JOIN
-    DateCTE DC
-WHERE
-    DATEPART(HOUR, CONVERT(DATETIME, DC.DateValue)) >= 18 AND DATEPART(HOUR, CONVERT(DATETIME, DC.DateValue)) < 23;
-
+GO
 
 SELECT
     R.Id AS ReservationId,
