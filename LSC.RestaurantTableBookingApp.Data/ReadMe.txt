@@ -16,3 +16,15 @@ To Scaffold databse as model to local project use below cmd.
 
 dotnet ef dbcontext scaffold "your connection string goes here" Microsoft.EntityFrameworkCore.SqlServer -o ModelTemp -d
 
+DB Migrations
+
+
+1. dotnet ef migrations add dbdesignchange -s ../RestaurantTableBookingApp.API/LSC.RestaurantTableBookingApp.API.csproj
+
+2. dotnet ef migrations script -s ../RestaurantTableBookingApp.API/LSC.RestaurantTableBookingApp.API.csproj
+(if needed as script)
+
+3. dotnet ef database update -s ../RestaurantTableBookingApp.API/LSC.RestaurantTableBookingApp.API.csproj
+
+4. dotnet ef database drop -s ../RestaurantTableBookingApp.API/LSC.RestaurantTableBookingApp.API.csproj 
+(to drop database)

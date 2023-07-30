@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LSC.RestaurantTableBookingApp.Core;
 
 public partial class DiningTable
 {
     public int Id { get; set; }
-
-    [Required]
-    public int BranchId { get; set; }
+        
+    public int RestaurantBranchId { get; set; }
 
     
     [MaxLength(100)]
@@ -19,6 +16,5 @@ public partial class DiningTable
     public int Capacity { get; set; }
 
     public virtual RestaurantBranch Branch { get; set; } = null!;
-
-    public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+    
 }

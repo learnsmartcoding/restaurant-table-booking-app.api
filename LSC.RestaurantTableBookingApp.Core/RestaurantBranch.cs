@@ -34,6 +34,5 @@ public partial class RestaurantBranch
     public virtual ICollection<DiningTable> DiningTables { get; set; } = new List<DiningTable>();
 
     public virtual Restaurant Restaurant { get; set; } = null!;
-
-    public virtual ICollection<TimeSlot> TimeSlots { get; set; } = new List<TimeSlot>();
+    
 }

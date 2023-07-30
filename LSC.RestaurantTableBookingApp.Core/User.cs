@@ -23,5 +23,8 @@ public partial class User
     [MaxLength(512)]
     public string? ProfileImageUrl { get; set; }
 
+    public DateTime CreatedDate { get; set; }
+    public DateTime UpdatedDate { get; set; }
+
     public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }
