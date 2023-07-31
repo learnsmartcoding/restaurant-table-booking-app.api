@@ -22,7 +22,7 @@ name: Build and deploy ASP.Net Core app to an Azure Web App
 env:
   AZURE_WEBAPP_NAME: 'lsc-table-booking-app-api.azurewebsites.net'    # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '7.0.0'                 # set this to the .NET Core version to use
+  DOTNET_VERSION: '6.0.0'                 # set this to the .NET Core version to use
 
 on:
   push:
@@ -43,6 +43,7 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          include-prerelease: true
 
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v3
