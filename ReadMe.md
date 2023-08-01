@@ -61,3 +61,12 @@ Next, we install essential Entity Framework packages and configure the connectio
 
 Join us as we lay the foundation for seamless data management and backend functionality for our restaurant app!
 
+### Part 5: Database Migrations & Table Enhancements
+
+In this part, I'm planning to adjust the table design by adjusting relationship between diningtable and timeslot to keep our overall goal easy and also
+add few comlumn to tables E.g. "User" and rename some column in other tables.
+
+Then, we use dotnet ef tool to create migrations and update the changes to our DB. We will also add some valid sample data so we can verify our upcoming GET endpoints.
+
+### Part 6: Building Restaurant Controller & Retrieving Data Endpoints
+We will create Restrautant controller and 4 GET endpoints to start with. These endpoints will help us retrieving the Restaurant, Branch information and data to choose dining table and its timeslots (by branch)

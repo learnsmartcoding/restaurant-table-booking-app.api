@@ -12,7 +12,7 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Restaurant",
+                name: "Restaurants",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -25,11 +25,11 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Restaurant", x => x.Id);
+                    table.PrimaryKey("PK_Restaurants", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -44,11 +44,11 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RestaurantBranch",
+                name: "RestaurantBranches",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -62,38 +62,38 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RestaurantBranch", x => x.Id);
+                    table.PrimaryKey("PK_RestaurantBranches", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RestaurantBranch_Restaurant_RestaurantId",
+                        name: "FK_RestaurantBranches_Restaurants_RestaurantId",
                         column: x => x.RestaurantId,
-                        principalTable: "Restaurant",
+                        principalTable: "Restaurants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DiningTable",
+                name: "DiningTables",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RestaurantBranchId = table.Column<int>(type: "int", nullable: false),
-                    SeatsName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    TableName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Capacity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiningTable", x => x.Id);
+                    table.PrimaryKey("PK_DiningTables", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DiningTable_RestaurantBranch_RestaurantBranchId",
+                        name: "FK_DiningTables_RestaurantBranches_RestaurantBranchId",
                         column: x => x.RestaurantBranchId,
-                        principalTable: "RestaurantBranch",
+                        principalTable: "RestaurantBranches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TimeSlot",
+                name: "TimeSlots",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -105,17 +105,17 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimeSlot", x => x.Id);
+                    table.PrimaryKey("PK_TimeSlots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TimeSlot_DiningTable_DiningTableId",
+                        name: "FK_TimeSlots_DiningTables_DiningTableId",
                         column: x => x.DiningTableId,
-                        principalTable: "DiningTable",
+                        principalTable: "DiningTables",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reservation",
+                name: "Reservations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -127,44 +127,44 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reservation", x => x.Id);
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservation_TimeSlot_TimeSlotId",
+                        name: "FK_Reservations_TimeSlots_TimeSlotId",
                         column: x => x.TimeSlotId,
-                        principalTable: "TimeSlot",
+                        principalTable: "TimeSlots",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reservation_User_UserId",
+                        name: "FK_Reservations_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiningTable_RestaurantBranchId",
-                table: "DiningTable",
+                name: "IX_DiningTables_RestaurantBranchId",
+                table: "DiningTables",
                 column: "RestaurantBranchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservation_TimeSlotId",
-                table: "Reservation",
+                name: "IX_Reservations_TimeSlotId",
+                table: "Reservations",
                 column: "TimeSlotId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservation_UserId",
-                table: "Reservation",
+                name: "IX_Reservations_UserId",
+                table: "Reservations",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RestaurantBranch_RestaurantId",
-                table: "RestaurantBranch",
+                name: "IX_RestaurantBranches_RestaurantId",
+                table: "RestaurantBranches",
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeSlot_DiningTableId",
-                table: "TimeSlot",
+                name: "IX_TimeSlots_DiningTableId",
+                table: "TimeSlots",
                 column: "DiningTableId");
         }
 
@@ -172,22 +172,22 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Reservation");
+                name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "TimeSlot");
+                name: "TimeSlots");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "DiningTable");
+                name: "DiningTables");
 
             migrationBuilder.DropTable(
-                name: "RestaurantBranch");
+                name: "RestaurantBranches");
 
             migrationBuilder.DropTable(
-                name: "Restaurant");
+                name: "Restaurants");
         }
     }
 }

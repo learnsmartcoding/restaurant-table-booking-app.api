@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LSC.RestaurantTableBookingApp.Data.Migrations
 {
     [DbContext(typeof(RestaurantTableBookingDbContext))]
-    [Migration("20230729232415_dbdesignchange")]
+    [Migration("20230729134945_dbdesignchange")]
     partial class dbdesignchange
     {
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
                     b.Property<int>("RestaurantBranchId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SeatsName")
+                    b.Property<string>("TableName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -47,7 +47,7 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
 
                     b.HasIndex("RestaurantBranchId");
 
-                    b.ToTable("DiningTable");
+                    b.ToTable("DiningTables");
                 });
 
             modelBuilder.Entity("LSC.RestaurantTableBookingApp.Core.Reservation", b =>
@@ -77,7 +77,7 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservation");
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("LSC.RestaurantTableBookingApp.Core.Restaurant", b =>
@@ -112,7 +112,7 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurant");
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("LSC.RestaurantTableBookingApp.Core.RestaurantBranch", b =>
@@ -152,7 +152,7 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("RestaurantBranch");
+                    b.ToTable("RestaurantBranches");
                 });
 
             modelBuilder.Entity("LSC.RestaurantTableBookingApp.Core.TimeSlot", b =>
@@ -181,7 +181,7 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
 
                     b.HasIndex("DiningTableId");
 
-                    b.ToTable("TimeSlot");
+                    b.ToTable("TimeSlots");
                 });
 
             modelBuilder.Entity("LSC.RestaurantTableBookingApp.Core.User", b =>
@@ -223,7 +223,7 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("LSC.RestaurantTableBookingApp.Core.DiningTable", b =>
@@ -270,12 +270,17 @@ namespace LSC.RestaurantTableBookingApp.Data.Migrations
             modelBuilder.Entity("LSC.RestaurantTableBookingApp.Core.TimeSlot", b =>
                 {
                     b.HasOne("LSC.RestaurantTableBookingApp.Core.DiningTable", "DiningTable")
-                        .WithMany()
+                        .WithMany("TimeSlots")
                         .HasForeignKey("DiningTableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("DiningTable");
+                });
+
+            modelBuilder.Entity("LSC.RestaurantTableBookingApp.Core.DiningTable", b =>
+                {
+                    b.Navigation("TimeSlots");
                 });
 
             modelBuilder.Entity("LSC.RestaurantTableBookingApp.Core.Restaurant", b =>

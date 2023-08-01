@@ -1,4 +1,7 @@
-﻿namespace LSC.RestaurantTableBookingApp.Core;
+﻿using System;
+using System.Collections.Generic;
+
+namespace LSC.RestaurantTableBookingApp.Core;
 
 public partial class Reservation
 {

@@ -6,336 +6,318 @@ BEGIN
     -- Create the database
     CREATE DATABASE RestaurantTableBooking;
 END
+ELSE
+BEGIN
+   DROP DATABASE RestaurantTableBooking;
+END
 
 Go
 use RestaurantTableBooking
 go
 
--- Create Restaurants Table
-CREATE TABLE Restaurants (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Name VARCHAR(100) NOT NULL,
-    Address VARCHAR(200) NOT NULL,
-    Phone VARCHAR(20),
-    Email VARCHAR(100),
-    ImageURL VARCHAR(500)
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+CREATE TABLE [Restaurants] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(100) NOT NULL,
+    [Address] nvarchar(200) NOT NULL,
+    [Phone] nvarchar(20) NULL,
+    [Email] nvarchar(100) NULL,
+    [ImageUrl] nvarchar(500) NULL,
+    CONSTRAINT [PK_Restaurants] PRIMARY KEY ([Id])
 );
+GO
 
--- Create RestaurantBranches Table
-CREATE TABLE RestaurantBranches (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    RestaurantId INT NOT NULL,
-    Name VARCHAR(100) NOT NULL,
-    Address VARCHAR(200) NOT NULL,
-	Phone VARCHAR(20),
-    Email VARCHAR(100),
-	ImageURL VARCHAR(500),
-    CONSTRAINT FK_RestaurantBranches_Restaurants
-    FOREIGN KEY (RestaurantId) REFERENCES Restaurants(Id)
+CREATE TABLE [Users] (
+    [Id] int NOT NULL IDENTITY,
+    [FirstName] nvarchar(50) NOT NULL,
+    [LastName] nvarchar(50) NOT NULL,
+    [Email] nvarchar(100) NOT NULL,
+    [AdObjId] nvarchar(128) NULL,
+    [ProfileImageUrl] nvarchar(512) NULL,
+    [CreatedDate] datetime2 NOT NULL,
+    [UpdatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Users] PRIMARY KEY ([Id])
 );
+GO
 
--- Create DiningTables Table
-CREATE TABLE DiningTables (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    BranchId INT NOT NULL,
-	SeatsName VARCHAR(100) NULL,
-    Capacity INT NOT NULL, --default 2, 
-    CONSTRAINT FK_DiningTables_RestaurantBranches
-    FOREIGN KEY (BranchId) REFERENCES RestaurantBranches(Id)
+CREATE TABLE [RestaurantBranches] (
+    [Id] int NOT NULL IDENTITY,
+    [RestaurantId] int NOT NULL,
+    [Name] nvarchar(100) NOT NULL,
+    [Address] nvarchar(200) NOT NULL,
+    [Phone] nvarchar(20) NULL,
+    [Email] nvarchar(100) NULL,
+    [ImageUrl] nvarchar(500) NULL,
+    CONSTRAINT [PK_RestaurantBranches] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_RestaurantBranches_Restaurants_RestaurantId] FOREIGN KEY ([RestaurantId]) REFERENCES [Restaurants] ([Id]) ON DELETE CASCADE
 );
+GO
 
--- Create TimeSlots Table
-CREATE TABLE TimeSlots (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    BranchId INT NOT NULL,
-	ReservationDay  DATE NOT NULL, -- day in which food served/restraurant is open.
-	MealType VARCHAR(100) NOT NULL, --BreakFast, Lunch, Dinner
-	TableStatus VARCHAR(50) NOT NULL, --Occupied, Booked, Available
-    CONSTRAINT FK_TimeSlots_RestaurantBranches
-    FOREIGN KEY (BranchId) REFERENCES RestaurantBranches(Id)
+CREATE TABLE [DiningTables] (
+    [Id] int NOT NULL IDENTITY,
+    [RestaurantBranchId] int NOT NULL,
+    [TableName] nvarchar(100) NULL,
+    [Capacity] int NOT NULL,
+    CONSTRAINT [PK_DiningTables] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_DiningTables_RestaurantBranches_RestaurantBranchId] FOREIGN KEY ([RestaurantBranchId]) REFERENCES [RestaurantBranches] ([Id]) ON DELETE CASCADE
 );
+GO
 
--- Create Users Table
-CREATE TABLE Users (
-    Id INT PRIMARY KEY IDENTITY(1,1),    
-    FirstName VARCHAR(50) NOT NULL,
-    LastName VARCHAR(50) NOT NULL,
-    Email VARCHAR(100) NOT NULL,
-	AdObjId VARCHAR(128) NULL,
-	ProfileImageUrl VARCHAR(512) NULL
+CREATE TABLE [TimeSlots] (
+    [Id] int NOT NULL IDENTITY,
+    [DiningTableId] int NOT NULL,
+    [ReservationDay] datetime2 NOT NULL,
+    [MealType] nvarchar(max) NOT NULL,
+    [TableStatus] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_TimeSlots] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_TimeSlots_DiningTables_DiningTableId] FOREIGN KEY ([DiningTableId]) REFERENCES [DiningTables] ([Id]) ON DELETE CASCADE
 );
+GO
 
--- Create Reservations Table
-CREATE TABLE Reservations (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    UserId INT NOT NULL,
-    TableId INT NOT NULL,
-    TimeSlotId INT NOT NULL,
-    ReservationDate DATE NOT NULL,
-    ReservationStatus VARCHAR(20) NOT NULL,
-    CONSTRAINT FK_Reservations_Users
-        FOREIGN KEY (UserId) REFERENCES Users(Id),
-    CONSTRAINT FK_Reservations_DiningTables
-        FOREIGN KEY (TableId) REFERENCES DiningTables(Id),
-    CONSTRAINT FK_Reservations_TimeSlots
-        FOREIGN KEY (TimeSlotId) REFERENCES TimeSlots(Id)
+CREATE TABLE [Reservations] (
+    [Id] int NOT NULL IDENTITY,
+    [UserId] int NOT NULL,
+    [TimeSlotId] int NOT NULL,
+    [ReservationDate] datetime2 NOT NULL,
+    [ReservationStatus] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_Reservations] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Reservations_TimeSlots_TimeSlotId] FOREIGN KEY ([TimeSlotId]) REFERENCES [TimeSlots] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Reservations_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
 );
+GO
+
+CREATE INDEX [IX_DiningTables_RestaurantBranchId] ON [DiningTables] ([RestaurantBranchId]);
+GO
+
+CREATE INDEX [IX_Reservations_TimeSlotId] ON [Reservations] ([TimeSlotId]);
+GO
+
+CREATE INDEX [IX_Reservations_UserId] ON [Reservations] ([UserId]);
+GO
+
+CREATE INDEX [IX_RestaurantBranches_RestaurantId] ON [RestaurantBranches] ([RestaurantId]);
+GO
+
+CREATE INDEX [IX_TimeSlots_DiningTableId] ON [TimeSlots] ([DiningTableId]);
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20230729134945_dbdesignchange', N'7.0.9');
+GO
+
+COMMIT;
+GO
 
 
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Awesome Restaurant', '123 Main Street', '555-123-4567', 'info@awesomerestaurant.com', 'https://www.awesomerestaurant.com/image.jpg');
 
--- Insert data into Restaurants table
-INSERT INTO Restaurants (Name, Address, Phone, Email, ImageURL)
-VALUES ('Awesome Restaurant', '123 Main Street', '123-456-7890', 'info@awesomerestaurant.com', 'https://www.awesomerestaurant.com/logo.jpg');
-
--- Insert data into RestaurantBranches table (5 branches)
-INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageURL)
+INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
 VALUES
-    (1, 'Branch A', '456 Elm Avenue', '111-222-3333', 'branchA@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchA.jpg'),
-    (1, 'Branch B', '789 Oak Drive', '444-555-6666', 'branchB@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchB.jpg'),
-    (1, 'Branch C', '101 Maple Street', '777-888-9999', 'branchC@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchC.jpg'),
-    (1, 'Branch D', '202 Pine Road', '123-456-7890', 'branchD@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchD.jpg'),
-    (1, 'Branch E', '303 Birch Lane', '444-555-6666', 'branchE@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchE.jpg');
+    (1, 'Branch A', '456 Oak Avenue', '555-789-1234', 'branchA@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchA.jpg'),
+    (1, 'Branch B', '789 Oak Drive', '555-222-3333', 'branchB@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchB.jpg'),
+    (1, 'Branch C', '789 Maple Lane', '555-444-5555', 'branchC@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchC.jpg'),
+    (1, 'Branch D', '123 Elm Street', '555-666-7777', 'branchD@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchD.jpg'),
+    (1, 'Branch E', '987 Pine Road', '555-888-9999', 'branchE@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchE.jpg');
 
--- Insert data into Users table (5 users)
-INSERT INTO Users (FirstName, LastName, Email, AdObjId)
+INSERT INTO Users (FirstName, LastName, Email, AdObjId, ProfileImageUrl, CreatedDate, UpdatedDate)
 VALUES
-    ('John', 'Doe', 'john.doe@example.com', 'AD12345'),
-    ('Jane', 'Smith', 'jane.smith@example.com', 'AD67890'),
-    ('Mike', 'Johnson', 'mike.johnson@example.com', 'AD45678'),
-    ('Emily', 'Brown', 'emily.brown@example.com', 'AD98765'),
-    ('Chris', 'Lee', 'chris.lee@example.com', 'AD54321');
+    ('John', 'Doe', 'john.doe@example.com', '123456', 'https://www.example.com/john.jpg', GETDATE(), GETDATE()),
+    ('Jane', 'Smith', 'jane.smith@example.com', '789012', 'https://www.example.com/jane.jpg', GETDATE(), GETDATE()),
+    ('Mike', 'Johnson', 'mike.johnson@example.com', '345678', 'https://www.example.com/mike.jpg', GETDATE(), GETDATE()),
+    ('Emily', 'Davis', 'emily.davis@example.com', '901234', 'https://www.example.com/emily.jpg', GETDATE(), GETDATE()),
+    ('Robert', 'Brown', 'robert.brown@example.com', '567890', 'https://www.example.com/robert.jpg', GETDATE(), GETDATE());
 
-	-- Insert more data into Users table (5 more users)
-INSERT INTO Users (FirstName, LastName, Email, AdObjId)
+
+    INSERT INTO DiningTables (RestaurantBranchId, TableName, Capacity)
 VALUES
-    ('Sarah', 'Williams', 'sarah.williams@example.com', 'AD98765'),
-    ('Michael', 'Smith', 'michael.smith@example.com', 'AD56789'),
-    ('Jessica', 'Johnson', 'jessica.johnson@example.com', 'AD65432'),
-    ('Andrew', 'Brown', 'andrew.brown@example.com', 'AD23456'),
-    ('Olivia', 'Lee', 'olivia.lee@example.com', 'AD87654');
+    (1, 'Mickey Mouse', 2),
+    (1, 'Minnie Mouse', 2),
+    (1, 'Donald Duck', 2),
+    (1, 'Goofy', 2),
 
+    (2, 'Tom Cat', 2),
+    (2, 'Jerry Mouse', 2),
+    (2, 'Scooby Doo', 2),
+    (2, 'Shaggy Rogers', 2),
 
--- Insert data into DiningTables table (4 tables per branch with capacity 2)
---INSERT INTO DiningTables (BranchId, SeatsName, Capacity)
---VALUES
---    -- Branch A tables
---    (1, 'Table A1', 2),
---    (1, 'Table A2', 2),
---    (1, 'Table A3', 2),
---    (1, 'Table A4', 2),
-    
---    -- Branch B tables
---    (2, 'Table B1', 2),
---    (2, 'Table B2', 2),
---    (2, 'Table B3', 2),
---    (2, 'Table B4', 2),
-    
---    -- Branch C tables
---    (3, 'Table C1', 2),
---    (3, 'Table C2', 2),
---    (3, 'Table C3', 2),
---    (3, 'Table C4', 2),
-    
---    -- Branch D tables
---    (4, 'Table D1', 2),
---    (4, 'Table D2', 2),
---    (4, 'Table D3', 2),
---    (4, 'Table D4', 2),
-    
---    -- Branch E tables
---    (5, 'Table E1', 2),
---    (5, 'Table E2', 2),
---    (5, 'Table E3', 2),
---    (5, 'Table E4', 2);
+    (3, 'Batman', 2),
+    (3, 'Superman', 2),
+    (3, 'Wonder Woman', 2),
+    (3, 'The Flash', 2),
 
--- Insert data into DiningTables table (4 tables per branch with capacity 2)
-INSERT INTO DiningTables (BranchId, SeatsName, Capacity)
-VALUES
-    -- Branch A tables (Avengers theme)
-    (1, 'Iron Man', 2),
-    (1, 'Thor', 2),
-    (1, 'Captain America', 2),
-    (1, 'Hulk', 2),
-    
-    -- Branch B tables (Disney Characters theme)
-    (2, 'Mickey Mouse', 2),
-    (2, 'Minnie Mouse', 2),
-    (2, 'Donald Duck', 2),
-    (2, 'Goofy', 2),
-    
-    -- Branch C tables (Avengers theme)
-    (3, 'Black Widow', 2),
-    (3, 'Hawkeye', 2),
-    (3, 'Black Panther', 2),
-    (3, 'Doctor Strange', 2),
-    
-    -- Branch D tables (Disney Characters theme)
-    (4, 'Cinderella', 2),
-    (4, 'Snow White', 2),
-    (4, 'Ariel', 2),
-    (4, 'Simba', 2),
-    
-    -- Branch E tables (Avengers theme)
-    (5, 'Scarlet Witch', 2),
-    (5, 'Spider-Man', 2),
-    (5, 'Ant-Man', 2),
-    (5, 'Captain Marvel', 2);
+    (4, 'Spider-Man', 2),
+    (4, 'Iron Man', 2),
+    (4, 'Captain America', 2),
+    (4, 'Thor', 2),
 
+    (5, 'Homer Simpson', 2),
+    (5, 'Marge Simpson', 2),
+    (5, 'Bart Simpson', 2),
+    (5, 'Lisa Simpson', 2);
 
--- Insert data into TimeSlots table (12 time slots per branch)
-INSERT INTO TimeSlots (BranchId, ReservationDay, MealType, TableStatus)
+INSERT INTO TimeSlots (DiningTableId, ReservationDay, MealType, TableStatus)
 VALUES
     -- Branch A time slots
     (1, '2023-07-30', 'Breakfast', 'Available'),
-    (1, '2023-07-30', 'Breakfast', 'Available'),
-    (1, '2023-07-30', 'Breakfast', 'Available'),
-    (1, '2023-07-30', 'Breakfast', 'Available'),
+    (2, '2023-07-30', 'Breakfast', 'Available'),
+    (3, '2023-07-30', 'Breakfast', 'Available'),
+    (4, '2023-07-30', 'Breakfast', 'Available'),
+
     (1, '2023-07-30', 'Lunch', 'Available'),
-    (1, '2023-07-30', 'Lunch', 'Available'),
-    (1, '2023-07-30', 'Lunch', 'Available'),
-    (1, '2023-07-30', 'Lunch', 'Available'),
+    (2, '2023-07-30', 'Lunch', 'Available'),
+    (3, '2023-07-30', 'Lunch', 'Available'),
+    (4, '2023-07-30', 'Lunch', 'Available'),
+
     (1, '2023-07-30', 'Dinner', 'Available'),
-    (1, '2023-07-30', 'Dinner', 'Available'),
-    (1, '2023-07-30', 'Dinner', 'Available'),
-    (1, '2023-07-30', 'Dinner', 'Available'),
-    
+    (2, '2023-07-30', 'Dinner', 'Available'),
+    (3, '2023-07-30', 'Dinner', 'Available'),
+    (4, '2023-07-30', 'Dinner', 'Available'),
+
     -- Branch B time slots
-    (2, '2023-07-30', 'Breakfast', 'Available'),
-    (2, '2023-07-30', 'Breakfast', 'Available'),
-    (2, '2023-07-30', 'Breakfast', 'Available'),
-    (2, '2023-07-30', 'Breakfast', 'Available'),
-    (2, '2023-07-30', 'Lunch', 'Available'),
-    (2, '2023-07-30', 'Lunch', 'Available'),
-    (2, '2023-07-30', 'Lunch', 'Available'),
-    (2, '2023-07-30', 'Lunch', 'Available'),
-    (2, '2023-07-30', 'Dinner', 'Available'),
-    (2, '2023-07-30', 'Dinner', 'Available'),
-    (2, '2023-07-30', 'Dinner', 'Available'),
-    (2, '2023-07-30', 'Dinner', 'Available'),
-    
+    (5, '2023-07-30', 'Breakfast', 'Available'),
+    (6, '2023-07-30', 'Breakfast', 'Available'),
+    (7, '2023-07-30', 'Breakfast', 'Available'),
+    (8, '2023-07-30', 'Breakfast', 'Available'),
+
+    (5, '2023-07-30', 'Lunch', 'Available'),
+    (6, '2023-07-30', 'Lunch', 'Available'),
+    (7, '2023-07-30', 'Lunch', 'Available'),
+    (8, '2023-07-30', 'Lunch', 'Available'),
+
+    (5, '2023-07-30', 'Dinner', 'Available'),
+    (6, '2023-07-30', 'Dinner', 'Available'),
+    (7, '2023-07-30', 'Dinner', 'Available'),
+    (8, '2023-07-30', 'Dinner', 'Available'),
+
     -- Branch C time slots
-    (3, '2023-07-30', 'Breakfast', 'Available'),
-    (3, '2023-07-30', 'Breakfast', 'Available'),
-    (3, '2023-07-30', 'Breakfast', 'Available'),
-    (3, '2023-07-30', 'Breakfast', 'Available'),
-    (3, '2023-07-30', 'Lunch', 'Available'),
-    (3, '2023-07-30', 'Lunch', 'Available'),
-    (3, '2023-07-30', 'Lunch', 'Available'),
-    (3, '2023-07-30', 'Lunch', 'Available'),
-    (3, '2023-07-30', 'Dinner', 'Available'),
-    (3, '2023-07-30', 'Dinner', 'Available'),
-    (3, '2023-07-30', 'Dinner', 'Available'),
-    (3, '2023-07-30', 'Dinner', 'Available'),
-    
+    (9, '2023-07-30', 'Breakfast', 'Available'),
+    (10, '2023-07-30', 'Breakfast', 'Available'),
+    (11, '2023-07-30', 'Breakfast', 'Available'),
+    (12, '2023-07-30', 'Breakfast', 'Available'),
+
+    (9, '2023-07-30', 'Lunch', 'Available'),
+    (10, '2023-07-30', 'Lunch', 'Available'),
+    (11, '2023-07-30', 'Lunch', 'Available'),
+    (12, '2023-07-30', 'Lunch', 'Available'),
+
+    (9, '2023-07-30', 'Dinner', 'Available'),
+    (10, '2023-07-30', 'Dinner', 'Available'),
+    (11, '2023-07-30', 'Dinner', 'Available'),
+    (12, '2023-07-30', 'Dinner', 'Available'),
+
     -- Branch D time slots
-    (4, '2023-07-30', 'Breakfast', 'Available'),
-    (4, '2023-07-30', 'Breakfast', 'Available'),
-    (4, '2023-07-30', 'Breakfast', 'Available'),
-    (4, '2023-07-30', 'Breakfast', 'Available'),
-    (4, '2023-07-30', 'Lunch', 'Available'),
-    (4, '2023-07-30', 'Lunch', 'Available'),
-    (4, '2023-07-30', 'Lunch', 'Available'),
-    (4, '2023-07-30', 'Lunch', 'Available'),
-    (4, '2023-07-30', 'Dinner', 'Available'),
-    (4, '2023-07-30', 'Dinner', 'Available'),
-    (4, '2023-07-30', 'Dinner', 'Available'),
-    (4, '2023-07-30', 'Dinner', 'Available'),
-    
+    (13, '2023-07-30', 'Breakfast', 'Available'),
+    (14, '2023-07-30', 'Breakfast', 'Available'),
+    (15, '2023-07-30', 'Breakfast', 'Available'),
+    (16, '2023-07-30', 'Breakfast', 'Available'),
+
+    (13, '2023-07-30', 'Lunch', 'Available'),
+    (14, '2023-07-30', 'Lunch', 'Available'),
+    (15, '2023-07-30', 'Lunch', 'Available'),
+    (16, '2023-07-30', 'Lunch', 'Available'),
+
+    (13, '2023-07-30', 'Dinner', 'Available'),
+    (14, '2023-07-30', 'Dinner', 'Available'),
+    (15, '2023-07-30', 'Dinner', 'Available'),
+    (16, '2023-07-30', 'Dinner', 'Available'),
+
     -- Branch E time slots
-    (5, '2023-07-30', 'Breakfast', 'Available'),
-    (5, '2023-07-30', 'Breakfast', 'Available'),
-    (5, '2023-07-30', 'Breakfast', 'Available'),
-    (5, '2023-07-30', 'Breakfast', 'Available'),
-    (5, '2023-07-30', 'Lunch', 'Available'),
-    (5, '2023-07-30', 'Lunch', 'Available'),
-    (5, '2023-07-30', 'Lunch', 'Available'),
-    (5, '2023-07-30', 'Lunch', 'Available'),
-    (5, '2023-07-30', 'Dinner', 'Available'),
-    (5, '2023-07-30', 'Dinner', 'Available'),
-    (5, '2023-07-30', 'Dinner', 'Available'),
-    (5, '2023-07-30', 'Dinner', 'Available');
+    (17, '2023-07-30', 'Breakfast', 'Available'),
+    (18, '2023-07-30', 'Breakfast', 'Available'),
+    (19, '2023-07-30', 'Breakfast', 'Available'),
+    (20, '2023-07-30', 'Breakfast', 'Available'),
+
+    (17, '2023-07-30', 'Lunch', 'Available'),
+    (18, '2023-07-30', 'Lunch', 'Available'),
+    (19, '2023-07-30', 'Lunch', 'Available'),
+    (20, '2023-07-30', 'Lunch', 'Available'),
+
+    (17, '2023-07-30', 'Dinner', 'Available'),
+    (18, '2023-07-30', 'Dinner', 'Available'),
+    (19, '2023-07-30', 'Dinner', 'Available'),
+    (20, '2023-07-30', 'Dinner', 'Available');
 
 
-	---------------------------------------
-GO
-	-- Insert data into Reservations table and update TimeSlots TableStatus
-BEGIN TRANSACTION;
+    -- Prepare for sample booking data
+    -- Assume the following are the user IDs and time slot IDs that will be used for simulation
+DECLARE @userId1 INT = 1;
+DECLARE @userId2 INT = 2;
+DECLARE @userId3 INT = 3;
 
--- User 1 books specific slots
-INSERT INTO Reservations (UserId, TableId, TimeSlotId, ReservationDate, ReservationStatus)
-VALUES
-    (1, 1, 1, '2023-07-30', 'Booked');
+-- Simulate reservations for Branch A (RestaurantBranchId: 1) on 2023-07-30
+-- User 1 booked the Breakfast time slot for Table 1
+DECLARE @timeSlotId1 INT = (SELECT TOP 1 Id FROM TimeSlots WHERE ReservationDay = '2023-07-30' AND MealType = 'Breakfast' AND TableStatus = 'Available');
+INSERT INTO Reservations (UserId, TimeSlotId, ReservationDate, ReservationStatus)
+VALUES (@userId1, @timeSlotId1, '2023-07-30', 'Booked');
 
+-- Simulate check-in for User 1 for the Breakfast time slot on Table 1
 UPDATE TimeSlots
-SET TableStatus = 'Booked'
-WHERE Id = 1;
+SET TableStatus = 'Occupied'
+WHERE Id = @timeSlotId1;
 
-INSERT INTO Reservations (UserId, TableId, TimeSlotId, ReservationDate, ReservationStatus)
-VALUES
-    (1, 5, 5, '2023-07-30', 'Booked');
-
+-- Simulate check-out for User 1 for the Breakfast time slot on Table 1
 UPDATE TimeSlots
-SET TableStatus = 'Booked'
-WHERE Id = 5;
+SET TableStatus = 'Available'
+WHERE Id = @timeSlotId1;
 
-INSERT INTO Reservations (UserId, TableId, TimeSlotId, ReservationDate, ReservationStatus)
-VALUES
-    (1, 9, 9, '2023-07-30', 'Booked');
+-- User 2 booked the Lunch time slot for Table 2
+DECLARE @timeSlotId2 INT = (SELECT TOP 1 Id FROM TimeSlots WHERE ReservationDay = '2023-07-30' AND MealType = 'Lunch' AND TableStatus = 'Available');
+INSERT INTO Reservations (UserId, TimeSlotId, ReservationDate, ReservationStatus)
+VALUES (@userId2, @timeSlotId2, '2023-07-30', 'Booked');
 
+-- Simulate check-in for User 2 for the Lunch time slot on Table 2
 UPDATE TimeSlots
-SET TableStatus = 'Booked'
-WHERE Id = 9;
+SET TableStatus = 'Occupied'
+WHERE Id = @timeSlotId2;
 
--- User 2 books specific slots
-INSERT INTO Reservations (UserId, TableId, TimeSlotId, ReservationDate, ReservationStatus)
-VALUES
-    (2, 2, 2, '2023-07-30', 'Booked');
-
+-- Simulate check-out for User 2 for the Lunch time slot on Table 2
 UPDATE TimeSlots
-SET TableStatus = 'Booked'
-WHERE Id = 2;
+SET TableStatus = 'Available'
+WHERE Id = @timeSlotId2;
 
-INSERT INTO Reservations (UserId, TableId, TimeSlotId, ReservationDate, ReservationStatus)
-VALUES
-    (2, 6, 6, '2023-07-30', 'Booked');
+-- User 3 booked the Dinner time slot for Table 3
+DECLARE @timeSlotId3 INT = (SELECT TOP 1 Id FROM TimeSlots WHERE ReservationDay = '2023-07-30' AND MealType = 'Dinner' AND TableStatus = 'Available');
+INSERT INTO Reservations (UserId, TimeSlotId, ReservationDate, ReservationStatus)
+VALUES (@userId3, @timeSlotId3, '2023-07-30', 'Booked');
 
+-- Simulate check-in for User 3 for the Dinner time slot on Table 3
 UPDATE TimeSlots
-SET TableStatus = 'Booked'
-WHERE Id = 6;
+SET TableStatus = 'Occupied'
+WHERE Id = @timeSlotId3;
 
--- User 3 books specific slots
-INSERT INTO Reservations (UserId, TableId, TimeSlotId, ReservationDate, ReservationStatus)
-VALUES
-    (3, 3, 3, '2023-07-30', 'Booked');
-
+-- Simulate check-out for User 3 for the Dinner time slot on Table 3
 UPDATE TimeSlots
-SET TableStatus = 'Booked'
-WHERE Id = 3;
-
-COMMIT TRANSACTION;
+SET TableStatus = 'Available'
+WHERE Id = @timeSlotId3;
 
 
-GO
+-- use this query to get data
 
-SELECT
-    R.Id AS ReservationId,
-    U.FirstName + ' ' + U.LastName AS UserName,
-    RB.Name AS BranchName,
-    DT.SeatsName AS TableSeatsName,
-    TS.ReservationDay,
-    TS.MealType,
-    TS.TableStatus AS TimeSlotStatus
-FROM
-    Reservations R
-INNER JOIN
-    Users U ON R.UserId = U.Id
-INNER JOIN
-    DiningTables DT ON R.TableId = DT.Id
-INNER JOIN
-    TimeSlots TS ON R.TimeSlotId = TS.Id
-INNER JOIN
-    RestaurantBranches RB ON DT.BranchId = RB.Id;
-
-	select * from TimeSlots
-
-
+SELECT        
+TimeSlots.ReservationDay, 
+DiningTables.TableName, 
+TimeSlots.MealType, 
+TimeSlots.TableStatus,
+RestaurantBranches.Name, 
+Users.FirstName, 
+Users.LastName, 
+Reservations.ReservationDate, 
+Reservations.ReservationStatus
+FROM            Users INNER JOIN
+Reservations ON Users.Id = Reservations.UserId RIGHT OUTER JOIN
+DiningTables INNER JOIN
+TimeSlots ON DiningTables.Id = TimeSlots.DiningTableId INNER JOIN
+RestaurantBranches ON DiningTables.RestaurantBranchId = RestaurantBranches.Id ON Reservations.TimeSlotId = TimeSlots.Id

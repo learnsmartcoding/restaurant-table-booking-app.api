@@ -22,7 +22,6 @@ public partial class User
     public string? AdObjId { get; set; }
     [MaxLength(512)]
     public string? ProfileImageUrl { get; set; }
-
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; }
 
