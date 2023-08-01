@@ -8,7 +8,6 @@ public partial class RestaurantBranch
 {
     public int Id { get; set; }
 
-    [Required]
     public int RestaurantId { get; set; }
 
     [Required]
@@ -35,5 +34,5 @@ public partial class RestaurantBranch
 
     public virtual Restaurant Restaurant { get; set; } = null!;
 
-    public virtual ICollection<TimeSlot> TimeSlots { get; set; } = new List<TimeSlot>();
+   
 }

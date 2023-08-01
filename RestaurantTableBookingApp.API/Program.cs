@@ -1,5 +1,5 @@
-
 using LSC.RestaurantTableBookingApp.Data;
+using LSC.RestaurantTableBookingApp.Service;
 using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantTableBookingApp.API
@@ -10,6 +10,7 @@ namespace RestaurantTableBookingApp.API
         {
             var builder = WebApplication.CreateBuilder(args);
             var configuration = builder.Configuration;
+
             // Add services to the container.
 
             builder.Services.AddDbContext<RestaurantTableBookingDbContext>(options =>
@@ -18,14 +19,25 @@ namespace RestaurantTableBookingApp.API
             );
 
             builder.Services.AddControllers();
+            // In production, modify this with the actual domains you want to allow
+            builder.Services.AddCors(o => o.AddPolicy("default", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+            builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            //if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

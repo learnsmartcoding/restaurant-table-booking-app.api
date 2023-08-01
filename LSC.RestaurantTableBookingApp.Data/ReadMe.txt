@@ -14,5 +14,20 @@ dotnet tool update --global dotnet-ef (this installs latest version)
 
 To Scaffold databse as model to local project use below cmd.
 
-dotnet ef dbcontext scaffold "your connection string goes here" Microsoft.EntityFrameworkCore.SqlServer -o ModelTemp -d
+dotnet ef dbcontext scaffold "Server=tcp:lsc-table-booking.database.windows.net,1433;Initial Catalog=RestaurantTableBooking;Persist Security Info=False;User ID=lscadmin;Password=DLbY-:-SqpNv4cp;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" Microsoft.EntityFrameworkCore.SqlServer -o ModelTemp -d
 
+
+
+
+
+
+
+1. dotnet ef migrations add dbdesignchange -s ../RestaurantTableBookingApp.API/LSC.RestaurantTableBookingApp.API.csproj
+
+2. dotnet ef migrations script -s ../RestaurantTableBookingApp.API/LSC.RestaurantTableBookingApp.API.csproj
+(if needed as script)
+
+3. dotnet ef database update -s ../RestaurantTableBookingApp.API/LSC.RestaurantTableBookingApp.API.csproj
+
+4. dotnet ef database drop -s ../RestaurantTableBookingApp.API/LSC.RestaurantTableBookingApp.API.csproj 
+(to drop database)
