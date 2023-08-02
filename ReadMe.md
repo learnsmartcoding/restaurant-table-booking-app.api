@@ -63,10 +63,15 @@ Join us as we lay the foundation for seamless data management and backend functi
 
 ### Part 5: Database Migrations & Table Enhancements
 
-In this part, I'm planning to adjust the table design by adjusting relationship between diningtable and timeslot to keep our overall goal easy and also
-add few comlumn to tables E.g. "User" and rename some column in other tables.
-
-Then, we use dotnet ef tool to create migrations and update the changes to our DB. We will also add some valid sample data so we can verify our upcoming GET endpoints.
+Welcome to Part 5 of the Restaurant Table Booking App series! In this episode, 
+we'll delve into the exciting world of database management as we explore database migrations and 
+table enhancements. Join us as we learn how to modify the relationships between dining tables and time slots to streamline our app's functionality and user experience. Additionally, we'll add new columns to the User table and rename certain columns in other tables to better align with our evolving needs. Whether you're a seasoned developer or just starting out, this step-by-step tutorial will equip you with the knowledge and skills to confidently manage and optimize your database for a seamless dining reservation experience. Get ready to level up your app and take it to new heights with these essential database techniques! Don't miss out - tune in now and let's dive into the world of database migrations and table enhancements.
 
 ### Part 6: Building Restaurant Controller & Retrieving Data Endpoints
-We will create Restrautant controller and 4 GET endpoints to start with. These endpoints will help us retrieving the Restaurant, Branch information and data to choose dining table and its timeslots (by branch)
+In this exciting installment of our Restaurant Table Booking App series, we will dive into creating the Restaurant Controller and implementing four essential GET endpoints. These endpoints will empower users to retrieve critical information about restaurants, branches, and available dining tables with their corresponding timeslots, all tailored by branch. Join us as we build the foundation for an efficient and user-friendly booking system.
+
+### Part 7: Deploying and Hosting on Azure Web App
+In Part 7 of the Restaurant Table Booking App series, we will take the next step in our journey and learn how to deploy and host our Web API on Azure Web App. Watch as we create a Web App in the Azure portal and demonstrate how to manually deploy it using the publish option from Visual Studio. We'll also explore how to configure the connection string under the configuration settings in Azure Web App. Join us for this hands-on tutorial and see how our app comes to life as we showcase a working demo from the hosted URL.
+
+### Part 8: Configure Serilog & Application Insights in Azure
+In Part 8 of the Restaurant Table Booking series, we delve into the world of logging and monitoring. Learn how to configure Serilog and leverage Application Insights in Azure to gain valuable insights into your Web API's performance and track exceptions effectively. Witness the power of logging as we explore request and response middleware, and see how it all comes together to enhance your application's visibility.
