@@ -1,4 +1,5 @@
-﻿using LSC.RestaurantTableBookingApp.Core.ViewModels;
+﻿using LSC.RestaurantTableBookingApp.Core;
+using LSC.RestaurantTableBookingApp.Core.ViewModels;
 
 namespace LSC.RestaurantTableBookingApp.Data
 {
@@ -22,5 +23,7 @@ namespace LSC.RestaurantTableBookingApp.Data
         /// <param name="date"></param>
         /// <returns></returns>
         Task<IEnumerable<DiningTableWithTimeSlotsModel>> GetDiningTablesByBranchAsync(int branchId);
+
+        
     }
 }

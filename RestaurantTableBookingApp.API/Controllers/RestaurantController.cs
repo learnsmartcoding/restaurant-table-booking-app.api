@@ -61,5 +61,6 @@ namespace LSC.RestaurantTableBookingApp.API.Controllers
             }
             return Ok(diningTables);
         }
+
     }
 }

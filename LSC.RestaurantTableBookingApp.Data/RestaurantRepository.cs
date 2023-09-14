@@ -1,4 +1,5 @@
-﻿using LSC.RestaurantTableBookingApp.Core.ViewModels;
+﻿using LSC.RestaurantTableBookingApp.Core;
+using LSC.RestaurantTableBookingApp.Core.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace LSC.RestaurantTableBookingApp.Data
@@ -101,9 +102,13 @@ In summary, this LINQ query retrieves dining tables and their associated time sl
                     MealType = ts.MealType,
                     ReservationDay = ts.ReservationDay,
                     TableStatus = ts.TableStatus,
-                    TimeSlotId = ts.Id
-                })
-            .ToListAsync();
+                    TimeSlotId = ts.Id,
+                    UserEmailId = (from r in _dbContext.Reservations
+                                   join u in _dbContext.Users on r.UserId equals u.Id
+                                   where r.TimeSlotId == ts.Id
+                                   select u.Email.ToLower()).FirstOrDefault()
+                }).ToListAsync();
+
 
             return data;
         }
@@ -127,5 +132,10 @@ In summary, this LINQ query retrieves dining tables and their associated time sl
             return branches;
         }
 
+       
+
+
+
     }
+
 }
