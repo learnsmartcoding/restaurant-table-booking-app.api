@@ -1,5 +1,7 @@
 ﻿# Getting Satrted with "Restaurant Table Booking App - Full Development Series"
 
+[Application Demo](https://lsc-table-booking-app-api.azurewebsites.net/swagger/index.html)
+
 # Restaurant Table Booking App
 
 ## Project Overview
