@@ -1,5 +1,6 @@
 
 using LSC.RestaurantTableBookingApp.API;
+using LSC.RestaurantTableBookingApp.API.Middleware;
 using LSC.RestaurantTableBookingApp.Data;
 using LSC.RestaurantTableBookingApp.Service;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Net;
+using System.Text.Json.Serialization;
 
 namespace RestaurantTableBookingApp.API
 {
@@ -17,6 +19,7 @@ namespace RestaurantTableBookingApp.API
             // Configure Serilog with the settings
             Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()
+            .WriteTo.Debug()
             .MinimumLevel.Information()
             .Enrich.FromLogContext()
             .CreateBootstrapLogger();
@@ -42,7 +45,12 @@ namespace RestaurantTableBookingApp.API
                 .EnableSensitiveDataLogging() //should not be used in production, only for development purpose
                 );
 
-                builder.Services.AddControllers();
+                builder.Services.AddControllers()
+                    .AddJsonOptions(options => {
+                        // Ignore self reference loop
+                        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    });
+
                 // In production, modify this with the actual domains you want to allow
                 builder.Services.AddCors(o => o.AddPolicy("default", builder =>
                 {
@@ -57,6 +65,9 @@ namespace RestaurantTableBookingApp.API
 
                 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
                 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+                builder.Services.AddScoped<IReservationService, ReservationService>();
+                builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+                
 
                 var app = builder.Build();
 
@@ -78,6 +89,9 @@ namespace RestaurantTableBookingApp.API
 
                 app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
+                app.UseMiddleware<DelayMiddleware>();
+
+                app.UseCors("default");
                 // Configure the HTTP request pipeline.
                 //if (app.Environment.IsDevelopment())
                 {

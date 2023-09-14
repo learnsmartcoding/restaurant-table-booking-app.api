@@ -75,3 +75,71 @@ In Part 7 of the Restaurant Table Booking App series, we will take the next step
 
 ### Part 8: Configure Serilog & Application Insights in Azure
 In Part 8 of the Restaurant Table Booking series, we delve into the world of logging and monitoring. Learn how to configure Serilog and leverage Application Insights in Azure to gain valuable insights into your Web API's performance and track exceptions effectively. Witness the power of logging as we explore request and response middleware, and see how it all comes together to enhance your application's visibility.
+
+### Part 9: Automating Timeslot Generation with Azure Timer Function
+In Part 9 of the Restaurant Table Booking App series, we dive into the world of automation with Azure Timer Functions. Learn how to create a Timer Function that runs daily at 6 AM, checking the Timeslot table to determine the last reservation date for each restaurant branch. Discover how to dynamically insert available dining table slots into the Timeslots table, ensuring the slots are available for reservation up to two days in advance. Join us in this tutorial to streamline the process of generating timeslots and enhance the efficiency of your restaurant table booking system.
+
+### Part 10: Provision Azure Function in Portal & deploy from visual studio
+In Part 10 of the Restaurant Table Booking series, we explore the process of provisioning an Azure Function in the Azure Portal and deploying it from Visual Studio. Follow along as we demonstrate the step-by-step setup of an Azure Function App using the Azure Portal. Then, learn how to deploy your function code from Visual Studio to the newly provisioned Function App. With this knowledge, you can efficiently manage and deploy your Azure Functions for your restaurant table booking application.
+
+### Part 11: Automating CI/CD with Azure Deployment Center in GitHub Actions
+In Part 11 of the Restaurant Table Booking App series, we will explore how to automate Continuous 
+Integration and Continuous Deployment (CI/CD) using the Azure Deployment Center within GitHub Actions.
+Learn how to set up a seamless CI/CD pipeline for your application, allowing for automatic deployments
+based on code changes. Improve your development workflow and streamline the deployment process with 
+this powerful integration.
+
+### Part 12: Restaurant Table Booking App - coding overview - Part 12 Angular 16 - Restaurant Selection, Slot Booking & User Info
+Get started with Angular. Learn some fundamental of angular app and start with home page, create pages that supports selection of Restaurant and it's branch. Populate the available dates for booking, allow selection of 
+a timeslot/table.
+
+### Part 13:Restaurant Table Booking App | Part 13: User Check-In Process and Reservation Status Update
+In this 13th installment of our video series, we're enhancing our restaurant table booking application. We've modified our existing model to include user email information for dining table bookings. Now, in our Angular UI, this user email information is used to enable a "Check-In" button, typically used by restaurant employees. However, since AD B2C integration is pending, regular users can also perform check-ins.
+
+When a user clicks the "Check-In" button, we send this information to a new endpoint in our Web API. This endpoint then updates the status of the timeslot and reservation tables, reflecting the check-in process. Join us as we explore this crucial feature that enhances the functionality and usability of our application
+
+### Part 13: 
+Create Web App for Angular and deploy the package manually to web site to test it out.
+
+### Part 14:
+Setup CI/CD for Angular project and get it auto deployed to web app in azure.
+
+### Part 15:
+API: Create end points that supports reservation of dining table
+
+### Part 16: 
+Angular: Implement UI for reservation
+
+
+
+
+
+
+
+
+
+
+
+### To initiate code check in to repo
+To add your code from your local repository to the remote repository on Azure DevOps, you can follow these steps:
+
+Initialize Git Repository: If you haven't already done so, initialize a Git repository in your local project directory by running the following command in the root of your project:
+
+git init
+
+Add and Commit Changes: Add all your project files to the Git repository and make an initial commit:
+
+git add .
+git commit -m "Initial commit"
+
+Add Remote Repository: Add the Azure DevOps remote repository as a remote named "origin":
+
+
+git remote add origin https://learnsmartcoding@dev.azure.com/learnsmartcoding/tutorials/_git/RestaurantTableBookingApp.API
+
+Push Code to Remote Repository: Push your code to the Azure DevOps remote repository on the "main" branch (or any other branch you prefer):
+
+
+git push -u origin main
+
+If it's the first time pushing to this repository, you may be prompted to enter your Azure DevOps credentials.

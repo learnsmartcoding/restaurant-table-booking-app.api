@@ -123,6 +123,36 @@ GO
 
 INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
 VALUES ('Awesome Restaurant', '123 Main Street', '555-123-4567', 'info@awesomerestaurant.com', 'https://www.awesomerestaurant.com/image.jpg');
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Delicious Diner', '456 Oak Avenue', '555-987-6543', 'info@deliciousdiner.com', 'https://www.deliciousdiner.com/image.jpg');
+
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Tasty Bistro', '789 Elm Street', '555-456-7890', 'info@tastybistro.com', 'https://www.tastybistro.com/image.jpg');
+
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Gourmet Grille', '321 Pine Road', '555-789-0123', 'info@gourmetgrille.com', 'https://www.gourmetgrille.com/image.jpg');
+
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Cafe Fusion', '567 Maple Lane', '555-234-5678', 'info@cafefusion.com', 'https://www.cafefusion.com/image.jpg');
+
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Savory Spots', '890 Birch Court', '555-678-9012', 'info@savoryspots.com', 'https://www.savoryspots.com/image.jpg');
+
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Elegant Eats', '123 Cherry Avenue', '555-901-2345', 'info@eleganteats.com', 'https://www.eleganteats.com/image.jpg');
+
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Urban Kitchen', '456 Plum Street', '555-345-6789', 'info@urbankitchen.com', 'https://www.urbankitchen.com/image.jpg');
+
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Mouthwatering Meals', '789 Berry Road', '555-678-1234', 'info@mouthwateringmeals.com', 'https://www.mouthwateringmeals.com/image.jpg');
+
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Trendy Tastes', '321 Orange Lane', '555-234-5678', 'info@trendytastes.com', 'https://www.trendytastes.com/image.jpg');
+
+INSERT INTO Restaurants (Name, Address, Phone, Email, ImageUrl)
+VALUES ('Flavorsome Fare', '567 Lemon Court', '555-901-2345', 'info@flavorsomefare.com', 'https://www.flavorsomefare.com/image.jpg');
+
 
 INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
 VALUES
@@ -131,6 +161,57 @@ VALUES
     (1, 'Branch C', '789 Maple Lane', '555-444-5555', 'branchC@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchC.jpg'),
     (1, 'Branch D', '123 Elm Street', '555-666-7777', 'branchD@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchD.jpg'),
     (1, 'Branch E', '987 Pine Road', '555-888-9999', 'branchE@awesomerestaurant.com', 'https://www.awesomerestaurant.com/branchE.jpg');
+
+    INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (1, 'Downtown Branch', '789 Main Street', '555-111-2222', 'downtown@awesomerestaurant.com', 'https://www.awesomerestaurant.com/downtown.jpg'),
+    (1, 'Eastside Branch', '456 Park Avenue', '555-333-4444', 'eastside@awesomerestaurant.com', 'https://www.awesomerestaurant.com/eastside.jpg');
+
+	INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (2, 'City Center Branch', '123 Broadway Street', '555-555-5555', 'citycenter@deliciousdiner.com', 'https://www.deliciousdiner.com/citycenter.jpg'),
+    (2, 'Westend Branch', '789 Market Road', '555-777-7777', 'westend@deliciousdiner.com', 'https://www.deliciousdiner.com/westend.jpg');
+	INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (3, 'Main Square Branch', '321 Park Lane', '555-999-9999', 'mainsquare@tastybistro.com', 'https://www.tastybistro.com/mainsquare.jpg'),
+    (3, 'Northside Branch', '987 Maple Avenue', '555-222-3333', 'northside@tastybistro.com', 'https://www.tastybistro.com/northside.jpg');
+	INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (4, 'Gourmet Plaza Branch', '654 Oak Lane', '555-444-4444', 'gourmetplaza@gourmetgrille.com', 'https://www.gourmetgrille.com/gourmetplaza.jpg'),
+    (4, 'Southside Branch', '321 Elm Road', '555-666-6666', 'southside@gourmetgrille.com', 'https://www.gourmetgrille.com/southside.jpg');
+
+	INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (5, 'Fusion Central Branch', '789 Market Street', '555-888-8888', 'fusioncentral@cafefusion.com', 'https://www.cafefusion.com/fusioncentral.jpg'),
+    (5, 'Seaside Branch', '456 Beach Road', '555-111-1111', 'seaside@cafefusion.com', 'https://www.cafefusion.com/seaside.jpg');
+
+	INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (6, 'Steakhouse Heights Branch', '123 Hill Street', '555-111-0000', 'steakhouseheights@sizzlingsteakhouse.com', 'https://www.sizzlingsteakhouse.com/steakhouseheights.jpg'),
+    (6, 'Westside Branch', '789 Sunset Road', '555-222-1111', 'westside@sizzlingsteakhouse.com', 'https://www.sizzlingsteakhouse.com/westside.jpg');
+	INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (7, 'Paradise Park Branch', '654 Garden Avenue', '555-333-2222', 'paradisepark@pastaparadise.com', 'https://www.pastaparadise.com/paradisepark.jpg'),
+    (7, 'Central Square Branch', '987 Center Street', '555-444-3333', 'centralsquare@pastaparadise.com', 'https://www.pastaparadise.com/centralsquare.jpg');
+
+
+
+	INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (8, 'Fusion Heights Branch', '321 Tower Road', '555-555-4444', 'fusionheights@asianfusion.com', 'https://www.asianfusion.com/fusionheights.jpg'),
+    (8, 'East End Branch', '789 Harbor Lane', '555-666-5555', 'eastend@asianfusion.com', 'https://www.asianfusion.com/eastend.jpg');
+
+	INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (9, 'Delightful Square Branch', '456 Garden Lane', '555-777-6666', 'delightfulsquare@mediterraneandelight.com', 'https://www.mediterraneandelight.com/delightfulsquare.jpg'),
+    (9, 'North End Branch', '123 Harbor Avenue', '555-888-7777', 'northend@mediterraneandelight.com', 'https://www.mediterraneandelight.com/northend.jpg');
+
+
+	INSERT INTO RestaurantBranches (RestaurantId, Name, Address, Phone, Email, ImageUrl)
+VALUES
+    (10, 'Green Oasis Branch', '321 Forest Road', '555-999-8888', 'greenoasis@vegetarianoasis.com', 'https://www.vegetarianoasis.com/greenoasis.jpg'),
+    (10, 'Westside Oasis Branch', '789 River Lane', '555-111-9999', 'westsideoasis@vegetarianoasis.com', 'https://www.vegetarianoasis.com/westsideoasis.jpg');
+
 
 INSERT INTO Users (FirstName, LastName, Email, AdObjId, ProfileImageUrl, CreatedDate, UpdatedDate)
 VALUES

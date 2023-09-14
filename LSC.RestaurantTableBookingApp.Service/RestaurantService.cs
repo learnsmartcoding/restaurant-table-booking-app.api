@@ -36,6 +36,7 @@ namespace LSC.RestaurantTableBookingApp.Service
         {
             return await _restaurantRepository.GetDiningTablesByBranchAsync(branchId);
         }
+
     }
 
 }
