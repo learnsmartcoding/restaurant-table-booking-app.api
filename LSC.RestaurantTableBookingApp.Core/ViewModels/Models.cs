@@ -46,10 +46,10 @@ namespace LSC.RestaurantTableBookingApp.Core.ViewModels
         public string? UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string EmailId { get; set; }
-        public string PhoneNumber { get; set; }
-        public int TimeSlotId { get; set; }
-        public DateTime ReservationDate { get; set; }
+        public required string EmailId { get; set; }
+        public string? PhoneNumber { get; set; }
+        public required int TimeSlotId { get; set; }
+        public required DateTime ReservationDate { get; set; }
         public string ReservationStatus { get; set; }
     }
 }
