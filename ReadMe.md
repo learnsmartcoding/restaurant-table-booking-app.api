@@ -100,16 +100,31 @@ In this 13th installment of our video series, we're enhancing our restaurant tab
 
 When a user clicks the "Check-In" button, we send this information to a new endpoint in our Web API. This endpoint then updates the status of the timeslot and reservation tables, reflecting the check-in process. Join us as we explore this crucial feature that enhances the functionality and usability of our application
 
-### Part 13: 
+### Part 14: Azure AD B2C Setup: User Flows, App Registration, and Integration with .NET Core 7 Web API & Angular 16 | Part 14
+In this tutorial, we'll guide you through the process of setting up Azure AD B2C (Azure Active Directory Business to Consumer) in the Azure Portal. We'll cover essential steps like configuring user flows and app registration for both a .NET Core 7 Web API and an Angular 16 Single Page Application (SPA).
+
+Learn how to seamlessly integrate Azure AD B2C into your applications to enhance user authentication and authorization. We'll provide you with practical code examples to configure these settings within your .NET Web API and Angular SPA.
+
+Join us for a live demo to witness how these configurations work together to provide a secure and user-friendly experience for your application users.
+
+### Part 15: Mastering Azure AD B2C: User Management with Graph API & Client Credentials | Part 15
+In this installment of the "Restaurant Table Booking App" series, we delve deep into Azure AD B2C and harness its power for user management. Join us as we demonstrate how to use the Graph API with client credentials in a C# .NET Core console application. Learn to access and manipulate user data efficiently, making your application more dynamic and user-friendly. Watch this tutorial for a step-by-step guide to enhance your authentication and authorization capabilities.
+
+### Part 16: Azure AD B2C: Enrich Tokens with External Claims using API Connectors | Part 16
+In this 16th installment of our series, we explore the fascinating world of Azure AD B2C and its ability to enrich tokens with external claims using API connectors. Join us as we create and enable an API connector in your Azure portal. We'll guide you through the process, including setting up authentication and configuring the API call.
+
+Discover how to enhance the information in your tokens with claims from external sources, ensuring your authentication process is as dynamic and customized as it can be. We'll dive into example requests sent to the API, the expected response types, and the magic of continuation responses. With practical steps and real-world examples, this tutorial will empower you to unlock the full potential of Azure AD B2C.
+
+### Part 17: 
 Create Web App for Angular and deploy the package manually to web site to test it out.
 
-### Part 14:
+### Part 18:
 Setup CI/CD for Angular project and get it auto deployed to web app in azure.
 
-### Part 15:
+### Part 19:
 API: Create end points that supports reservation of dining table
 
-### Part 16: 
+### Part 20: 
 Angular: Implement UI for reservation
 
 

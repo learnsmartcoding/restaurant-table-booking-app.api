@@ -1,22 +1,27 @@
 ﻿using LSC.RestaurantTableBookingApp.Core.ViewModels;
 using LSC.RestaurantTableBookingApp.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LSC.RestaurantTableBookingApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]//the end points from this controller is used by any user without login so it should be ananymous
     public class RestaurantController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
+        private readonly IReservationService reservationService;
 
-        public RestaurantController(IRestaurantService restaurantService)
+        public RestaurantController(IRestaurantService restaurantService, IReservationService reservationService)
         {
             _restaurantService = restaurantService;
+            this.reservationService = reservationService;
         }
 
         [HttpGet("restaurants")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<RestaurantModel>))]
+
         public async Task<ActionResult<IEnumerable<RestaurantModel>>> GetAllRestaurantsAsync()
         {
             var restaurants = await _restaurantService.GetAllRestaurantsAsync();
@@ -60,6 +65,41 @@ namespace LSC.RestaurantTableBookingApp.API.Controllers
                 return NotFound();
             }
             return Ok(diningTables);
+        }
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(ReservationModel))]
+        [ProducesResponseType(400)]
+        //[RequiredScope(RequiredScopesConfigurationKey = "AzureAdB2C:Scopes:Write")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ReservationModel>> CreateReservationAsync(ReservationModel reservation)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Check if the selected time slot exists
+            var timeSlot = await reservationService.TimeSlotIdExistAsync(reservation.TimeSlotId);
+            if (!timeSlot)
+            {
+                return NotFound("Selected time slot not found.");
+            }
+
+            // Create a new reservation
+            var newReservation = new ReservationModel
+            {
+                UserId = reservation.UserId,
+                FirstName = reservation.FirstName,
+                LastName = reservation.LastName,
+                EmailId = reservation.EmailId,
+                PhoneNumber = reservation.PhoneNumber,
+                TimeSlotId = reservation.TimeSlotId,
+                ReservationDate = reservation.ReservationDate,
+                ReservationStatus = reservation.ReservationStatus
+            };
+
+            var createdReservation = await reservationService.CreateOrUpdateReservationAsync(newReservation);
+            return new CreatedResult("GetReservation", new { id = createdReservation });
         }
 
     }
