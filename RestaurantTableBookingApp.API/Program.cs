@@ -1,6 +1,7 @@
 
 using LSC.RestaurantTableBookingApp.API;
 using LSC.RestaurantTableBookingApp.API.Middleware;
+using LSC.RestaurantTableBookingApp.API.PermissionValidation;
 using LSC.RestaurantTableBookingApp.Data;
 using LSC.RestaurantTableBookingApp.Service;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Logging;
+using SendGrid;
+using SendGrid.Extensions.DependencyInjection;
 using Serilog;
 using System.Net;
 using System.Text.Json.Serialization;
@@ -98,6 +101,11 @@ namespace RestaurantTableBookingApp.API
                            .AllowAnyHeader();
                 }));
 
+                //builder.Services.AddSendGrid(options =>
+                //{
+                //    options.ApiKey = configuration.GetValue<string>("SendGrid:SENDGRID_API_KEY");
+                //});
+
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
@@ -105,8 +113,9 @@ namespace RestaurantTableBookingApp.API
                 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
                 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
                 builder.Services.AddScoped<IReservationService, ReservationService>();
-                builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
-                
+                builder.Services.AddScoped<IReservationRepository, ReservationRepository>();                
+                builder.Services.AddScoped<IEmailNotification, EmailNotification>();
+                builder.Services.AddScoped<IPermissionValidation, PermissionValidation>();
 
                 var app = builder.Build();
 
@@ -134,7 +143,7 @@ namespace RestaurantTableBookingApp.API
                         var exception = exceptionHandlerPathFeature?.Error;
 
                         Log.Error(exception, "Unhandled exception occurred. {ExceptionDetails}", exception?.ToString());
-
+                        Console.WriteLine(exception?.ToString());
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         await context.Response.WriteAsync("An unexpected error occurred. Please try again later.");
                     });

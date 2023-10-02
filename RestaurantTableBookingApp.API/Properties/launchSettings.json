@@ -59,7 +59,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "TodoListAPI": {
+    "LSC.RestaurantTableBookingApp.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

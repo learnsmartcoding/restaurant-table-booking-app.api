@@ -18,17 +18,21 @@ namespace LSC.RestaurantTableBookingApp.API.Controllers
         private readonly IReservationService reservationService;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IPermissionValidation permissionValidation;
+        private readonly IEmailNotification emailNotification;
         private ClaimsPrincipal _currentPrincipal;
         /// <summary>
         /// We store the object id of the user/app derived from the presented Access token
         /// </summary>
         private string _currentPrincipalId = string.Empty;
 
-        public ReservationController(IReservationService reservationService, IHttpContextAccessor contextAccessor, IPermissionValidation permissionValidation)
+        public ReservationController(IReservationService reservationService, IPermissionValidation permissionValidation,
+            IEmailNotification emailNotification,
+            IHttpContextAccessor contextAccessor )
         {
             this.reservationService = reservationService;
             _contextAccessor = contextAccessor;
             this.permissionValidation = permissionValidation;
+            this.emailNotification = emailNotification;
 
             // We seek the details of the user/app represented by the access token presented to this API, This can be empty unless authN succeeded
             // If a user signed-in, the value will be the unique identifier of the user.
@@ -74,6 +78,7 @@ namespace LSC.RestaurantTableBookingApp.API.Controllers
                 return NotFound("Selected time slot not found.");
             }
             var response = await reservationService.CheckInReservationAsync(reservation);
+            await emailNotification.SendCheckInEmailAsync(reservation);
             return Ok(response);
         }
 
