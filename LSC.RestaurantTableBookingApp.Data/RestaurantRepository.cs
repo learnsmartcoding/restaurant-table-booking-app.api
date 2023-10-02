@@ -1,6 +1,7 @@
 ﻿using LSC.RestaurantTableBookingApp.Core;
 using LSC.RestaurantTableBookingApp.Core.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace LSC.RestaurantTableBookingApp.Data
 {
@@ -8,11 +9,38 @@ namespace LSC.RestaurantTableBookingApp.Data
     {
         private readonly RestaurantTableBookingDbContext _dbContext;
 
+        
         public RestaurantRepository(RestaurantTableBookingDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        public Task<User?> GetUserAsync(string emailId)
+        {
+            return _dbContext.Users.FirstOrDefaultAsync(f=>f.Email.Equals(emailId));
+        }
+
+        public async Task<RestaurantReservationDetails> GetRestaurantReservationDetailsAsync(int timeSlotId)
+        {           
+
+            var query = await (from diningTable in _dbContext.DiningTables
+                        join restaurantBranch in _dbContext.RestaurantBranches on diningTable.RestaurantBranchId equals restaurantBranch.Id
+                        join restaurant in _dbContext.Restaurants on restaurantBranch.RestaurantId equals restaurant.Id
+                        join timeSlot in _dbContext.TimeSlots on diningTable.Id equals timeSlot.DiningTableId
+                        where timeSlot.Id == timeSlotId
+                        select new RestaurantReservationDetails()
+                        {
+                            RestaurantName= restaurant.Name,
+                            BranchName = restaurantBranch.Name,
+                            Address= restaurantBranch.Address,
+                            TableName= diningTable.TableName,
+                           Capacity= diningTable.Capacity,
+                            MealType = timeSlot.MealType,
+                            ReservationDay = timeSlot.ReservationDay                            
+                        }).FirstOrDefaultAsync();
+
+            return query;
+        }
         public async Task<IEnumerable<RestaurantModel>> GetAllRestaurantsAsync()
         {
             var restaurants = await _dbContext.Restaurants

@@ -2,6 +2,8 @@
 using LSC.RestaurantTableBookingApp.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace LSC.RestaurantTableBookingApp.API.Controllers
 {
@@ -12,11 +14,14 @@ namespace LSC.RestaurantTableBookingApp.API.Controllers
     {
         private readonly IRestaurantService _restaurantService;
         private readonly IReservationService reservationService;
+        private readonly IEmailNotification emailNotification;
 
-        public RestaurantController(IRestaurantService restaurantService, IReservationService reservationService)
+        public RestaurantController(IRestaurantService restaurantService, IReservationService reservationService,
+            IEmailNotification emailNotification)
         {
             _restaurantService = restaurantService;
             this.reservationService = reservationService;
+            this.emailNotification = emailNotification;
         }
 
         [HttpGet("restaurants")]
@@ -66,6 +71,7 @@ namespace LSC.RestaurantTableBookingApp.API.Controllers
             }
             return Ok(diningTables);
         }
+
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(ReservationModel))]
         [ProducesResponseType(400)]
@@ -99,6 +105,8 @@ namespace LSC.RestaurantTableBookingApp.API.Controllers
             };
 
             var createdReservation = await reservationService.CreateOrUpdateReservationAsync(newReservation);
+            await emailNotification.SendBookingEmailAsync(reservation);            
+            
             return new CreatedResult("GetReservation", new { id = createdReservation });
         }
 

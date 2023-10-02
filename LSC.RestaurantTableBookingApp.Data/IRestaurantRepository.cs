@@ -24,6 +24,8 @@ namespace LSC.RestaurantTableBookingApp.Data
         /// <returns></returns>
         Task<IEnumerable<DiningTableWithTimeSlotsModel>> GetDiningTablesByBranchAsync(int branchId);
 
-        
+        Task<RestaurantReservationDetails> GetRestaurantReservationDetailsAsync(int timeSlotId);
+
+        Task<User?> GetUserAsync(string emailId);
     }
 }
