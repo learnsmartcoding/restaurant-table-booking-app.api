@@ -8,7 +8,7 @@ namespace LSC.RestaurantTableBookingApp.Service
 {
     public interface IEmailNotification
     {
-        Task<Response> SendBookingEmailAsync(ReservationModel model);
+        Task<Response> SendBookingEmailAsync(ReservationModel model, bool isReminderEmail = false);
         Task<Response> SendCheckInEmailAsync(DiningTableWithTimeSlotsModel model);
     }
 
@@ -22,7 +22,7 @@ namespace LSC.RestaurantTableBookingApp.Service
             this.configuration = configuration;
             this.restaurantRepository = restaurantRepository;
         }
-        public async Task<Response> SendBookingEmailAsync(ReservationModel model)
+        public async Task<Response> SendBookingEmailAsync(ReservationModel model, bool isReminderEmail = false)
         {
             var apiKey = configuration["SendGrid:SENDGRID_API_KEY"];
             var from = new EmailAddress(configuration["SendGrid:From"]);
@@ -31,12 +31,12 @@ namespace LSC.RestaurantTableBookingApp.Service
             var sendGridMessage = new SendGridMessage()
             {
                 From = from,
-                Subject = "Restaurant Reservation Confirmation"
+                Subject = "Restaurant Reservation Confirmation" + (isReminderEmail ? " - Reminder" : "")
             };
 
             var reservationDetails = await restaurantRepository.GetRestaurantReservationDetailsAsync(model.TimeSlotId);
 
-            sendGridMessage.AddContent(MimeType.Html, GetBookingEmailBody(model, reservationDetails));
+            sendGridMessage.AddContent(MimeType.Html, GetBookingEmailBody(model, reservationDetails,isReminderEmail));
             sendGridMessage.AddTo(to);
 
             Console.WriteLine($"Sending email with payload: \n{sendGridMessage.Serialize()}");
@@ -116,14 +116,15 @@ namespace LSC.RestaurantTableBookingApp.Service
 
                     """;
         }
-        private string GetBookingEmailBody(ReservationModel model, RestaurantReservationDetails reservationDetails)
+        private string GetBookingEmailBody(ReservationModel model, RestaurantReservationDetails reservationDetails, bool isReminderEmail)
         {
+            var reminder = (isReminderEmail ? " - Reminder" : "");
             return $$"""
                     <!DOCTYPE html>
                     <html>
                     <head>
                         <meta charset=""UTF-8"">
-                        <title>Restaurant Reservation Confirmation</title>
+                        <title>Restaurant Reservation Confirmation {{reminder}}</title>
                     </head>
                     <body>
                         <p><strong>Confirmation of Your Restaurant Table Reservation</strong></p>
@@ -158,5 +159,6 @@ namespace LSC.RestaurantTableBookingApp.Service
                     """;
         }
 
+    
     }
 }

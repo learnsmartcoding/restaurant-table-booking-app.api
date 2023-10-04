@@ -113,6 +113,9 @@ GO
 CREATE INDEX [IX_TimeSlots_DiningTableId] ON [TimeSlots] ([DiningTableId]);
 GO
 
+ALTER TABLE [Reservations] ADD [ReminderSent] bit NOT NULL DEFAULT CAST(0 AS bit);
+GO
+
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20230729134945_dbdesignchange', N'7.0.9');
 GO

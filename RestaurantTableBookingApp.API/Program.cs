@@ -3,6 +3,7 @@ using LSC.RestaurantTableBookingApp.API;
 using LSC.RestaurantTableBookingApp.API.Middleware;
 using LSC.RestaurantTableBookingApp.API.PermissionValidation;
 using LSC.RestaurantTableBookingApp.Data;
+using LSC.RestaurantTableBookingApp.Data.BackgroundService;
 using LSC.RestaurantTableBookingApp.Service;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,8 +45,14 @@ namespace RestaurantTableBookingApp.API
 
                 Log.Information("Starting the application...");
 
+                builder.Services.AddDbContext<RestaurantTableBookingDbContext>(options =>
+              options.UseSqlServer(configuration.GetConnectionString("DbContext"))
+              //.EnableSensitiveDataLogging() //should not be used in production, only for development purpose
+              );
+
+
                 // Adds Microsoft Identity platform (AAD v2.0) support to protect this Api
-               builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         .AddMicrosoftIdentityWebApi(options =>
 
                         {
@@ -82,10 +89,7 @@ namespace RestaurantTableBookingApp.API
 
                 // Add services to the container.
 
-                builder.Services.AddDbContext<RestaurantTableBookingDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DbContext") ?? "")
-                .EnableSensitiveDataLogging() //should not be used in production, only for development purpose
-                );
+              
 
                 builder.Services.AddControllers()
                     .AddJsonOptions(options => {
@@ -116,6 +120,7 @@ namespace RestaurantTableBookingApp.API
                 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();                
                 builder.Services.AddScoped<IEmailNotification, EmailNotification>();
                 builder.Services.AddScoped<IPermissionValidation, PermissionValidation>();
+                builder.Services.AddHostedService<ReminderService>();
 
                 var app = builder.Build();
 
