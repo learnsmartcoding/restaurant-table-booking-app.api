@@ -14,6 +14,32 @@ namespace LSC.RestaurantTableBookingApp.Data
 
         public async Task<int> CreateOrUpdateReservationAsync(ReservationModel reservation)
         {
+            var mealType = _dbContext.TimeSlots.First(f=>f.Id==reservation.TimeSlotId).MealType;
+            // Define the time for each meal type
+            TimeSpan breakfastTime = new TimeSpan(8, 0, 0); // 8:00 AM
+            TimeSpan lunchTime = new TimeSpan(12, 0, 0);   // 12:00 PM
+            TimeSpan dinnerTime = new TimeSpan(18, 0, 0);  // 6:00 PM
+
+            // Based on the meal type, set the time for ReservationDate
+            TimeSpan reservationTime;
+
+            if (mealType == "Breakfast")
+            {
+                reservationTime = breakfastTime;
+            }
+            else if (mealType == "Lunch")
+            {
+                reservationTime = lunchTime;
+            }
+            else if (mealType == "Dinner")
+            {
+                reservationTime = dinnerTime;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid meal type.");
+            }
+
             var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.FirstName == reservation.FirstName
             && u.LastName == reservation.LastName && u.Email == reservation.EmailId);
 
@@ -41,7 +67,7 @@ namespace LSC.RestaurantTableBookingApp.Data
             {
                 UserId = existingUser.Id,
                 TimeSlotId = reservation.TimeSlotId,
-                ReservationDate = reservation.ReservationDate,
+                ReservationDate = reservation.ReservationDate.Date.Add(reservationTime),
                 ReservationStatus = reservation.ReservationStatus
             };
 

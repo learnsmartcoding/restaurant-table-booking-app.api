@@ -18,4 +18,5 @@ public partial class Reservation
     public virtual TimeSlot TimeSlot { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
+    public bool ReminderSent { get; set; } = false;
 }
