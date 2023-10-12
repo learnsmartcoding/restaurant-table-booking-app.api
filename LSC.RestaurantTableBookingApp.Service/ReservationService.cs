@@ -21,6 +21,11 @@ namespace LSC.RestaurantTableBookingApp.Service
             return reservationRepository.CreateOrUpdateReservationAsync(reservation);
         }
 
+        public Task<List<ReservationDetailsModel>> GetReservationDetails()
+        {
+            return reservationRepository.GetReservationDetailsAsync();
+        }
+
         public async Task<bool> TimeSlotIdExistAsync(int timeSlotId)
         {
             var timeSlot = await reservationRepository.GetTimeSlotByIdAsync(timeSlotId);

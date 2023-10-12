@@ -55,7 +55,8 @@ namespace LSC.RestaurantTableBookingApp.Data.BackgroundService
                                 EmailId = userInfo.Email,
                                 FirstName = userInfo.FirstName,
                                 LastName = userInfo.LastName,
-                                TimeSlotId = b.TimeSlotId, ReservationDate = b.ReservationDate
+                                TimeSlotId = b.TimeSlotId,
+                                ReservationDate = b.ReservationDate
                             };
 
                             var response = emailNotificationService.SendBookingEmailAsync(model, isReminderEmail: true).Result;

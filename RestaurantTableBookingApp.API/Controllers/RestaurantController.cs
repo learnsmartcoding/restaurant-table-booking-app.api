@@ -110,5 +110,16 @@ namespace LSC.RestaurantTableBookingApp.API.Controllers
             return new CreatedResult("GetReservation", new { id = createdReservation });
         }
 
+        [HttpGet("getreservations")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReservationDetailsModel>))]
+        [ProducesResponseType(404)]
+        //[RequiredScope(RequiredScopesConfigurationKey = "AzureAdB2C:Scopes:Write")]
+        public async Task<ActionResult<IEnumerable<ReservationDetailsModel>>> GetReservationDetails(int branchId, DateTime date)
+        {
+            var reservations = await reservationService.GetReservationDetails();
+           
+            return Ok(reservations);
+        }
+
     }
 }

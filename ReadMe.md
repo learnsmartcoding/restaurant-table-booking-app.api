@@ -1,7 +1,12 @@
 ﻿# Getting Satrted with "Restaurant Table Booking App - Full Development Series"
 
 [Application Demo](https://lsc-table-booking-app-api.azurewebsites.net/swagger/index.html)
+[Angular UI Demo](https://lsc-table-booking-app-web.azurewebsites.net/)
 
+Source Code:
+1. https://github.com/learnsmartcoding/lsc-restaurant-table-booking-app
+2. https://github.com/learnsmartcoding/restaurant-table-booking-app.api
+3. https://github.com/learnsmartcoding/lsc.restaurant-table-booking-app.function
 
 # Restaurant Table Booking App
 
@@ -116,48 +121,41 @@ In this 16th installment of our series, we explore the fascinating world of Azur
 
 Discover how to enhance the information in your tokens with claims from external sources, ensuring your authentication process is as dynamic and customized as it can be. We'll dive into example requests sent to the API, the expected response types, and the magic of continuation responses. With practical steps and real-world examples, this tutorial will empower you to unlock the full potential of Azure AD B2C.
 
-### Part 17: 
-Create Web App for Angular and deploy the package manually to web site to test it out.
+### Part 17: Automated Email Notifications with SendGrid in .NET 7: Booking Confirmations and Check-In Alerts | Part 17
+In this video, I walk you through the process of setting up automated email notifications for your restaurant's online bookings and check-ins. Using SendGrid, we'll explore how to create a SendGrid account, generate API keys, and implement the necessary code in .NET 7 to seamlessly trigger email notifications. Join us in simplifying the booking process and enhancing the dining experience for your customers with real-time email alerts.
 
-### Part 18:
-Setup CI/CD for Angular project and get it auto deployed to web app in azure.
+### Part 18: Angular 16 CI/CD Setup & Azure Web App Deployment | Part 18
+In this Part 18 video of our series, we'll guide you through setting up a robust CI/CD pipeline for your Angular 16 application. Learn the essential configurations needed to deploy your app to Azure Web App for a seamless production environment. We'll walk you through the entire process, ensuring your deployment is smooth and efficient. Don't miss out on these crucial steps for modern web app development.
 
-### Part 19:
-API: Create end points that supports reservation of dining table
+### Part 19: Scheduled Email Notifications with .NET Core 7 Background Service in a Web API | Part 19
+Discover the power of background services in .NET Core 7 as we implement scheduled email notifications for booking reminders in this Part 19 video. We'll guide you through the process of setting up a background service that triggers emails to users 24 hours before their scheduled booking time. Dive into the intricacies of integrating your database and services to automate email notifications effectively. Stay tuned for a seamless user experience.
 
-### Part 20: 
-Angular: Implement UI for reservation
+### Part 20: Serve Angular Assets from Azure Storage | Azure Storage Account Setup | Part 20
+In Part 20 of our series, we dive into the world of Azure Storage Accounts, unlocking a powerful solution for serving your Angular application's assets seamlessly from the cloud. Learn how to set up a storage account, create containers, and explore different access levels. We'll also demonstrate how to use the Storage Account Explorer software to access a created storage container.
 
+Discover the magic of serving your static assets from Azure Storage instead of a traditional server. Say goodbye to server-side hassles and embrace scalability. We'll show you how to avoid CORS errors by configuring your Storage Account for smooth asset delivery.
 
+Join us on this journey into Azure Storage as we demystify container management, file uploads, and show you how to serve assets efficiently. Transform your app's performance and infrastructure with this essential guide.
 
+### Part 21:  Boost Angular App Performance with Azure Front Door CDN | Azure Front Door Setup | Part 21
+Welcome to Part 21 of our series, where we supercharge your Angular app's performance with Azure Front Door CDN. We'll begin with an overview of the Azure Storage setup from Part 20.
 
+Discover the importance of Content Delivery Networks (CDN) and how they can enhance your application's speed and scalability. Dive deep into the setup of Azure Front Door CDN and learn the art of configuring it.
 
+In this video, we'll walk you through the process of linking your Azure Storage static files to the CDN. Witness the magic of seamless content delivery as we replace these links in your index.html. Say goodbye to slow load times and hello to faster, more responsive applications.
 
-
-
-
-
-
-### To initiate code check in to repo
-To add your code from your local repository to the remote repository on Azure DevOps, you can follow these steps:
-
-Initialize Git Repository: If you haven't already done so, initialize a Git repository in your local project directory by running the following command in the root of your project:
-
-git init
-
-Add and Commit Changes: Add all your project files to the Git repository and make an initial commit:
-
-git add .
-git commit -m "Initial commit"
-
-Add Remote Repository: Add the Azure DevOps remote repository as a remote named "origin":
+Join us on this journey to optimize your Angular app with Azure Front Door CDN. Elevate your app's performance and user experience to the next level.
 
 
-git remote add origin https://learnsmartcoding@dev.azure.com/learnsmartcoding/tutorials/_git/RestaurantTableBookingApp.API
+### Part 22: Azure AD B2C Custom UI Setup with Azure Storage | Part 22
+In Part 22, we empower you to give your users a sleek and customized sign-in/sign-up experience. Discover how to obtain free Bootstrap HTML pages for your authentication process or create your own pages to suit your application's style.
 
-Push Code to Remote Repository: Push your code to the Azure DevOps remote repository on the "main" branch (or any other branch you prefer):
+We'll guide you through the steps of uploading these custom pages to an Azure Storage account, making them easily accessible. Dive deep into Azure AD B2C custom UI customization, where you can mold the sign-in and sign-up pages to match your app's identity.
 
+We'll unravel the mysteries of CORS (Cross-Origin Resource Sharing) configuration to ensure that your Azure B2C custom UI works like a charm. And to top it all off, we'll demonstrate the magic of these customized pages in action.
 
-git push -u origin main
+Join us and create a unique and delightful authentication experience for your users with Azure AD B2C Custom UI.
 
-If it's the first time pushing to this repository, you may be prompted to enter your Azure DevOps credentials.
+### Part 23: Role-Based Authorization and Authentication with Angular, Azure AD B2C, and Custom Claims | Part 23
+In " Role-Based Authorization and Authentication with Angular, Azure AD B2C, and Custom Claims | Part 23," we delve into the world of secure application access control. Discover how to implement role-based authorization using custom claims within Azure AD B2C, a powerful identity and access management solution. We'll guide you through the process of using Angular and an auth guard to enforce access restrictions based on user roles. This essential security feature ensures that only authorized users can access specific parts of your application. Watch the video to learn how to empower your application with role-based authorization and custom claims to create a more secure and tailored user experience.
+

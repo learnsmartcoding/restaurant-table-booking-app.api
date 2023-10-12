@@ -99,5 +99,38 @@ namespace LSC.RestaurantTableBookingApp.Data
 
             return reservation;
         }
+
+        public async Task<List<ReservationDetailsModel>> GetReservationDetailsAsync()
+        {
+            var reservationDetails = await (
+                 from dt in _dbContext.DiningTables
+                 join r in _dbContext.Reservations on dt.Id equals r.Id
+                 join rb in _dbContext.RestaurantBranches on dt.RestaurantBranchId equals rb.Id
+                 join rt in _dbContext.Restaurants on rb.RestaurantId equals rt.Id
+                 join ts in _dbContext.TimeSlots on r.TimeSlotId equals ts.Id
+                 join u in _dbContext.Users on r.UserId equals u.Id
+                 //where r.ReservationDate == DateTime.Now.Date
+                 select new ReservationDetailsModel
+                 {
+                     Name = rt.Name,
+                     BranchName = rb.Name,
+                     Address = rb.Address,
+                     Phone = rb.Phone,
+                     TableName = dt.TableName,
+                     Capacity = dt.Capacity,
+                     ReservationDate = r.ReservationDate,
+                     MealType = ts.MealType,
+                     TableStatus = ts.TableStatus,
+                     ReservationStatus = r.ReservationStatus,
+                     FirstName = u.FirstName,
+                     LastName = u.LastName,
+                     Email = u.Email
+                 }
+             ).ToListAsync() ;
+
+
+            return reservationDetails;
+
+        }
     }
 }

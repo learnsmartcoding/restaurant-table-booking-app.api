@@ -9,5 +9,6 @@ namespace LSC.RestaurantTableBookingApp.Data
         Task<TimeSlot> GetTimeSlotByIdAsync(int timeSlotId);
 
         Task<DiningTableWithTimeSlotsModel> UpdateReservationAsync(DiningTableWithTimeSlotsModel reservation);
+        Task<List<ReservationDetailsModel>> GetReservationDetailsAsync();
     }
 }

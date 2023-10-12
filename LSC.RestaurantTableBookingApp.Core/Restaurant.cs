@@ -6,7 +6,7 @@ namespace LSC.RestaurantTableBookingApp.Core;
 
 public partial class Restaurant
 {
-//    [Key] Id is automatically considered as primary key by EF, if name is different then specify as [Key]
+
     public int Id { get; set; }
 
     [Required]
