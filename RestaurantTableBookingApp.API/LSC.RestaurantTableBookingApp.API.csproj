@@ -30,4 +30,8 @@
     <ProjectReference Include="..\LSC.RestaurantTableBookingApp.Service\LSC.RestaurantTableBookingApp.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\ServiceDependencies\" />
+  </ItemGroup>
+
 </Project>

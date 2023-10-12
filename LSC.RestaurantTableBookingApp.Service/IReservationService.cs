@@ -12,6 +12,7 @@ namespace LSC.RestaurantTableBookingApp.Service
         Task<int> CreateOrUpdateReservationAsync(ReservationModel reservation);
         Task<bool> TimeSlotIdExistAsync(int timeSlotId);
         Task<DiningTableWithTimeSlotsModel> CheckInReservationAsync(DiningTableWithTimeSlotsModel reservation);
+        Task<List<ReservationDetailsModel>> GetReservationDetails();
     }
 
 }
