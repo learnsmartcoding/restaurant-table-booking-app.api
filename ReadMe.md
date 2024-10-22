@@ -1,4 +1,4 @@
-﻿# Getting Satrted with "Restaurant Table Booking App - Full Development Series"
+﻿# Getting Started with "Restaurant Table Booking App - Full Development Series"
 
 [Application Demo](https://lsc-table-booking-app-api.azurewebsites.net/swagger/index.html)
 [Angular UI Demo](https://lsc-table-booking-app-web.azurewebsites.net/)
